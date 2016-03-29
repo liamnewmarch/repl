@@ -11,6 +11,7 @@ class REPL {
   constructor({input, output, console}) {
     this.elements = {input, output};
     this._hijack(console);
+    window.addEventListener('resize', this._scroll.bind(this), false);
   }
 
   /**
@@ -66,7 +67,7 @@ class REPL {
     listNode.classList.add(type);
     listNode.appendChild(textNode);
     this.elements.output.appendChild(listNode);
-    this.elements.output.scrollTop = this.elements.output.scrollHeight;
+    this._scroll();
   }
 
   /**
@@ -83,6 +84,15 @@ class REPL {
       })
     }
     return data.join(', ');
+  }
+
+  /**
+   * Scroll output to the bottom
+   * @method
+   * @private
+   */
+  _scroll() {
+    this.elements.output.scrollTop = this.elements.output.scrollHeight;
   }
 }
 
