@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html column>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, minimum-scale=1">
+    <title> REPL </title>
+    <link rel="stylesheet" href="app.css">
+  </head>
+  <body column fill>
+    <header hidden> REPL </header>
+    <main column fill>
+      <ul fill shrink></ul>
+      <div row no-shrink>
+        <textarea fill rows="6" spellcheck="false"></textarea>
+        <button onclick="repl.run()"> Run </button>
+      </div>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
