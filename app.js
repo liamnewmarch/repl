@@ -74,16 +74,15 @@ class REPL {
    * @private
    */
   _format(type, ...data) {
-    if (type === 'echo') {
-      return data.join(', ');
+    if (type === 'log' || type === 'return') {
+      data = data.map(item => {
+        if (typeof item !== 'undefined') {
+          return JSON.stringify(item);
+        }
+        return 'undefined';
+      })
     }
-    return data.map(item => {
-      if (typeof item !== 'undefined') {
-        return JSON.stringify(item);
-      }
-      return 'undefined';
-    }).join(', ');
-
+    return data.join(', ');
   }
 }
 
