@@ -86,12 +86,20 @@ class REPL {
   }
 }
 
+
+/**
+ * Expose repl instance to the global scope
+ */
 window.repl = new REPL({
   input: document.querySelector('textarea'),
   output: document.querySelector('ul'),
   console: window.console
 });
 
+
+/**
+ * Register service worker
+ */
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js');
 }
