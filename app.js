@@ -92,3 +92,7 @@ window.repl = new REPL({
   output: document.querySelector('ul'),
   console: window.console
 });
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js');
+}
