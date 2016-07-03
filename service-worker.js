@@ -1,9 +1,9 @@
 var CACHE_NAME = 'repl-v1';
 
 var URLS = [
-  '/',
-  '/app.css',
-  '/app.js'
+  '',
+  'app.css',
+  'app.js'
 ];
 
 self.addEventListener('install', function(event) {
