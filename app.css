@@ -39,6 +39,8 @@ html {
 }
 
 body {
+  border-top: 2px solid;
+  border-image: linear-gradient(to right, cyan, purple, pink) 1 stretch;
   margin: 0;
 }
 
