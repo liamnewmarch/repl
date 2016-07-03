@@ -10,6 +10,7 @@ class REPL {
    */
   constructor({input, output, console}) {
     this.elements = {input, output};
+    this._context = {};
     this._hijack(console);
     window.addEventListener('resize', this._scroll.bind(this), false);
   }
@@ -24,6 +25,7 @@ class REPL {
   /**
    * @method
    * @private
+   * @param {console} console Console object
    */
   _hijack(console) {
     const keys = ['log', 'error', 'warn'];
@@ -45,11 +47,12 @@ class REPL {
   /**
    * @method
    * @private
+   * @param {string} input Input string
    */
   _evaluate(input) {
     this._print('echo', input);
     try {
-      this._print('return', eval.call(this, input));
+      this._print('return', eval.call(this._context, input));
     } catch(e) {
       this._print('error', e);
     }
@@ -59,12 +62,14 @@ class REPL {
    * Push data to output list
    * @method
    * @private
+   * @param {string} logType Console method
+   * @param {...*} data Data to pass to the method
    */
-  _print(type, ...data) {
-    let formatted = this._format(type, ...data);
+  _print(logType, ...data) {
+    let formatted = this._format(logType, ...data);
     let listNode = document.createElement('li');
     let textNode = document.createTextNode(formatted);
-    listNode.classList.add(type);
+    listNode.classList.add(logType);
     listNode.appendChild(textNode);
     this.elements.output.appendChild(listNode);
     this._scroll();
@@ -73,17 +78,42 @@ class REPL {
   /**
    * Format data as a string
    * @private
+   * @param {string} logType Console method
+   * @param {...*} data Data to pass to the method
    */
-  _format(type, ...data) {
-    if (type === 'log' || type === 'return') {
+  _format(logType, ...data) {
+    if (logType === 'log' || logType === 'return') {
       data = data.map(item => {
-        if (typeof item !== 'undefined') {
-          return JSON.stringify(item);
+        const type = this._type(item);
+        switch (type) {
+          case 'Array':
+          case 'Boolean':
+          case 'Number':
+          case 'Object':
+          case 'String':
+            return JSON.stringify(item);
+          case 'Class':
+          case 'Function':
+            return item.toString();
+          case 'Undefined':
+            return 'undefined'
+          default:
+            return `${type} {}`;
         }
-        return 'undefined';
-      })
+      });
     }
     return data.join(', ');
+  }
+
+  /**
+   * A better typeof
+   * @method
+   * @private
+   * @param {*} thing Thing to find the type of
+   */
+  _type(thing) {
+    const toString = Object.prototype.toString.call(thing);
+    return toString.replace(/\[\w+ (\w+)\]/, '$1');
   }
 
   /**
@@ -110,6 +140,6 @@ window.repl = new REPL({
 /**
  * Register service worker
  */
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && location.hostname !== 'localhost') {
   navigator.serviceWorker.register('service-worker.js');
 }

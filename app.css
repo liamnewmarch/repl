@@ -51,7 +51,8 @@ ul {
 }
 
 li {
-  padding: .5rem;
+  padding-left: 2em;
+  text-indent: -1.3em;
   white-space: pre;
 }
 
