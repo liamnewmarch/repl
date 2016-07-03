@@ -11,8 +11,13 @@
     <main column fill>
       <ul fill shrink></ul>
       <div row no-shrink>
+        <div column no-shrink>
+          <button fill onclick="repl.prev()"> ▲ </button>
+          <button fill onclick="repl.clear()"> ⨉ </button>
+          <button fill onclick="repl.next()"> ▼ </button>
+        </div>
         <textarea fill rows="6" spellcheck="false"></textarea>
-        <button onclick="repl.run()"> Run </button>
+        <button onclick="repl.run()"> ▶︎ </button>
       </div>
     </main>
     <script src="app.js"></script>

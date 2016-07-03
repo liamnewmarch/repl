@@ -11,6 +11,8 @@ class REPL {
   constructor({input, output, console}) {
     this.elements = {input, output};
     this._context = {};
+    this._history = [];
+    this._historyIndex = 0;
     this._hijack(console);
     window.addEventListener('resize', this._scroll.bind(this), false);
   }
@@ -18,8 +20,38 @@ class REPL {
   /**
    * @method
    */
+  clear() {
+    this.elements.input.value = '';
+    this._historyIndex = 0;
+  }
+
+  /**
+   * @method
+   */
+  prev() {
+    if (!this._history.length) return
+    this._historyIndex = Math.min(++this._historyIndex, this._history.length);
+    const index = this._history.length - this._historyIndex;
+    this.elements.input.value = this._history[index];
+  }
+
+  /**
+   * @method
+   */
+  next() {
+    if (!this._history.length) return;
+    this._historyIndex = Math.max(--this._historyIndex, 1);
+    const index = this._history.length - this._historyIndex;
+    this.elements.input.value = this._history[index];
+  }
+
+  /**
+   * @method
+   */
   run() {
     this._read();
+    this.elements.input.value = '';
+    this._historyIndex = 0;
   }
 
   /**
@@ -28,10 +60,9 @@ class REPL {
    * @param {console} console Console object
    */
   _hijack(console) {
-    const keys = ['log', 'error', 'warn'];
-    keys.forEach(key => {
+    for (let key in console) {
       console[key] = (...args) => this._print(key, ...args);
-    });
+    }
   }
 
   /**
@@ -39,9 +70,7 @@ class REPL {
    * @private
    */
   _read() {
-    let input = this.elements.input.value;
-    this.elements.input.value = '';
-    this._evaluate(input);
+    this._evaluate(this.elements.input.value);
   }
 
   /**
@@ -50,6 +79,7 @@ class REPL {
    * @param {string} input Input string
    */
   _evaluate(input) {
+    this._history.push(input);
     this._print('echo', input);
     try {
       this._print('return', eval.call(this._context, input));
@@ -66,9 +96,9 @@ class REPL {
    * @param {...*} data Data to pass to the method
    */
   _print(logType, ...data) {
-    let formatted = this._format(logType, ...data);
-    let listNode = document.createElement('li');
-    let textNode = document.createTextNode(formatted);
+    const formatted = this._format(logType, ...data);
+    const listNode = document.createElement('li');
+    const textNode = document.createTextNode(formatted);
     listNode.classList.add(logType);
     listNode.appendChild(textNode);
     this.elements.output.appendChild(listNode);
