@@ -30,11 +30,16 @@
   flex-shrink: 0;
 }
 
+html, textarea, button {
+  color: #fff;
+  font-family: Monaco, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+}
+
 html {
   background: #333;
-  color: #fff;
-  font-family: sans-serif;
-  text-rendering: optimizeLegibility;
   height: 100%;
 }
 
@@ -45,16 +50,15 @@ body {
 }
 
 ul {
-  font-family: monospace;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: .5rem;
   overflow: auto;
 }
 
 li {
-  padding-left: 2em;
-  text-indent: -1.3em;
+  padding-left: 1.5rem;
+  text-indent: -1.2rem;
   white-space: pre;
 }
 
@@ -85,15 +89,11 @@ li::before {
 textarea {
   background: #444;
   border: 0;
-  color: #fff;
-  font: normal 1rem monospace;
   padding: .5rem;
 }
 
 button {
   background: #555;
   border: 0;
-  color: #fff;
-  font: normal 1rem sans-serif;
   padding: .5rem 2rem;
 }
