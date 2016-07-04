@@ -1,19 +1,17 @@
-var CACHE_NAME = 'repl-v1';
+const cacheVersion = 'repl-v1';
 
-var URLS = [
-  '',
-  'app.css',
-  'app.js'
-];
-
-self.addEventListener('install', function(event) {
-  event.waitUntil(caches.open(CACHE_NAME).then(function(cache) {
-    return cache.addAll(URLS);
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(cacheVersion).then(cache => {
+    return cache.addAll([
+      '',
+      'app.css',
+      'app.js'
+    ]);
   }));
 });
 
-self.addEventListener('fetch', function(event) {
-  event.respondWith(caches.match(event.request).then(function(response) {
+self.addEventListener('fetch', event => {
+  event.respondWith(caches.match(event.request).then(response => {
     return response || fetch(event.request);
   }));
 });
