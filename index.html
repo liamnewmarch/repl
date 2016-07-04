@@ -5,6 +5,7 @@
     <meta name="viewport" content="initial-scale=1, minimum-scale=1">
     <title> REPL </title>
     <link rel="stylesheet" href="app.css">
+    <link rel="manifest" href="manifest.json">
   </head>
   <body column fill>
     <header hidden> REPL </header>
@@ -16,7 +17,7 @@
           <button fill onclick="repl.clear()"> ⨉ </button>
           <button fill onclick="repl.next()"> ▼ </button>
         </div>
-        <textarea fill rows="6" spellcheck="false"></textarea>
+        <textarea fill rows="6" autocorrect="off" autocapitalize="none" spellcheck="false"></textarea>
         <button onclick="repl.run()"> ▶︎ </button>
       </div>
     </main>
