@@ -170,6 +170,6 @@ window.repl = new REPL({
 /**
  * Register service worker
  */
-if ('serviceWorker' in navigator && location.hostname !== 'localhost') {
+if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
